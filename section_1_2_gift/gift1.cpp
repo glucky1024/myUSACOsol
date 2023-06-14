@@ -18,35 +18,18 @@ using namespace std;
 class Person
 {
 public:
-    Person(const std::string& s, int in, vector<string>& vecNames)
-        : _name(s)
-        , _moneyIn(in)
+    Person(const std::string &s, int in, vector<string> &vecNames)
+        : _name(s), _moneyIn(in)
     {
         _recievers = vecNames;
         _moneyOwn = 0;
     }
 
-    unsigned int getNumberOfRecievers()
-    {
-        return _recievers.size();
-    }
-    void addMoney(int usd)
-    {
-        _moneyOwn+= usd;
-    }
-    int getMoneyIn()
-    {
-        return _moneyIn;
-    }
-    int getMoneyOwned()
-    {
-        return _moneyOwn;
-    }
-    const vector<string>& getNames()
-    {
-        return _recievers;
-    }
-
+    unsigned int getNumberOfRecievers() { return _recievers.size(); }
+    void addMoney(int usd) { _moneyOwn += usd; }
+    int getMoneyIn() { return _moneyIn; }
+    int getMoneyOwned() { return _moneyOwn; }
+    const vector<string> &getNames() { return _recievers; }
 
 private:
     string _name;
@@ -55,7 +38,7 @@ private:
     int _moneyOwn;
 };
 
-bool ReadIn(const string& sFile, vector<string>& vecPersons, unordered_map<string, Person*>& mapPersons)
+bool ReadIn(const string &sFile, vector<string> &vecPersons, unordered_map<string, Person *> &mapPersons)
 {
     vecPersons.clear();
 
@@ -91,11 +74,11 @@ bool ReadIn(const string& sFile, vector<string>& vecPersons, unordered_map<strin
         string sName;
         in_file >> sName;
 
-        unsigned int usd =0, n = 0;
+        unsigned int usd = 0, n = 0;
         in_file >> usd >> n;
 
-        vector <string> vecNames;
-        for (unsigned int i=0; i < n; i++)
+        vector<string> vecNames;
+        for (unsigned int i = 0; i < n; i++)
         {
             string s2;
             in_file >> s2;
@@ -103,7 +86,7 @@ bool ReadIn(const string& sFile, vector<string>& vecPersons, unordered_map<strin
         }
         mapPersons[sName] = new Person(sName, usd, vecNames);
 
-        if(in_file.eof() )
+        if (in_file.eof())
             break;
     }
 
@@ -111,8 +94,7 @@ bool ReadIn(const string& sFile, vector<string>& vecPersons, unordered_map<strin
     return true;
 }
 
-
-void calcUsd(int moneyIn, unsigned int n, int& moneyAve, int& moneyBack)
+void calcUsd(int moneyIn, unsigned int n, int &moneyAve, int &moneyBack)
 {
     moneyAve = 0;
     moneyBack = 0;
@@ -122,48 +104,46 @@ void calcUsd(int moneyIn, unsigned int n, int& moneyAve, int& moneyBack)
         return;
     }
 
-    moneyAve = floor(moneyIn/n);
-    moneyBack  = moneyIn % n - moneyIn;
+    moneyAve = floor(moneyIn / n);
+    moneyBack = moneyIn % n - moneyIn;
 }
 
-void WriteOut(const string& sFile, const vector<string>& vecPersons, unordered_map<string, Person*>& mapPersons)
+void WriteOut(const string &sFile, const vector<string> &vecPersons, unordered_map<string, Person *> &mapPersons)
 {
     ofstream out_file;
-    out_file.open (sFile);
+    out_file.open(sFile);
 
-    for(string s: vecPersons)
+    for (string s : vecPersons)
     {
-        unordered_map<string, Person*>::iterator it = mapPersons.find(s);
-        if(it != mapPersons.end())
+        unordered_map<string, Person *>::iterator it = mapPersons.find(s);
+        if (it != mapPersons.end())
         {
             string sName = it->first;
             int usd = it->second->getMoneyOwned();
             out_file << sName << " " << usd << endl;
         }
     }
-    //out_file << endl;
 
     out_file.close();
 }
 
-
 int main()
 {
     vector<string> vecPersons;
-    unordered_map<string, Person*> mapPersons;
+    unordered_map<string, Person *> mapPersons;
 
+    // read 
     if (!ReadIn("gift1.in", vecPersons, mapPersons))
         return 1;
 
-    for(const auto & p: mapPersons)
+    // process
+    for (const auto &p : mapPersons)
     {
-        Person* pP= p.second;
-        if (!pP)
+        Person *pP = p.second;
+        if (pP == nullptr)
             return 1;
         unsigned int n = pP->getNumberOfRecievers();
-        if (n==0)
-        {
-            pP->addMoney(pP->getMoneyIn());
+        if (n == 0){
             continue;
         }
 
@@ -171,11 +151,11 @@ int main()
         int moneyAve, moneyBack;
         calcUsd(moneyIn, n, moneyAve, moneyBack);
 
-        const vector<string>& vecNames = pP->getNames();
-        for( string s: vecNames)
+        const vector<string> &vecNames = pP->getNames();
+        for (string s : vecNames)
         {
-            unordered_map<string, Person*>::iterator it = mapPersons.find(s);
-            if(it != mapPersons.end())
+            unordered_map<string, Person *>::iterator it = mapPersons.find(s);
+            if (it != mapPersons.end())
             {
                 it->second->addMoney(moneyAve);
             }
@@ -183,12 +163,11 @@ int main()
         pP->addMoney(moneyBack);
     }
 
+    // write
     WriteOut("gift1.out", vecPersons, mapPersons);
 
-
     // output
-    for(const auto & p: mapPersons)
-    {
+    for (const auto &p : mapPersons){
         delete p.second;
     }
     mapPersons.clear();
