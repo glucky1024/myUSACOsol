@@ -68,6 +68,7 @@ bool Calculate(int nYears, vector<int>& vec13th)
                 {
                     int day = dateCount % 7;
                     vec13th[day] = vec13th[day] + 1;
+                    cout << "13th day in year " << y << " month " << j + 1 << ", dateCount=" << dateCount << endl;
                 }
                 dateCount++;
             }
