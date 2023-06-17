@@ -30,7 +30,7 @@ bool ReadIn(const std::string& sFile, string& s)
     return true;
 }
 
-bool ReadDict(const std::string& sFile, vector<string>& dict)
+bool ReadDict(const std::string& sFile, map<int, vector<string>>& dict)
 {
     fstream in_file;
     in_file.open(sFile, ios::in);
@@ -45,7 +45,14 @@ bool ReadDict(const std::string& sFile, vector<string>& dict)
     {
         string sName;
         in_file >> sName;
-        dict.push_back(sName);
+        int l = sName.size();
+        map<int, vector<string>>::iterator it =dict.find(l);
+        if (it != dict.end()) {
+            it->second.push_back(sName);
+        }
+        else {
+            dict[l] = { sName };
+        }
 
         if (in_file.eof())
             break;
@@ -122,14 +129,15 @@ void getLetterByNumber(int iVal, vector<string>& tmp)
 bool Calculate(const string& s, vector<string>& vecNames)
 {
     vecNames.clear();
-    for (int i = 0; i < s.size(); ++i)
+    vector<string> vecNew;
+    for (unsigned int i = 0; i < s.size(); i++)
     {
         string sub = s.substr(i, 1);
         int iVal = atoi(sub.c_str());
         vector<string> vecTmp;
         getLetterByNumber(iVal, vecTmp);
 
-        vector<string> vecNew;
+        vecNew.clear();
         for (string sTmp : vecTmp)
         {
             if (vecNames.empty()) 
@@ -137,13 +145,14 @@ bool Calculate(const string& s, vector<string>& vecNames)
                 vecNew.push_back(sTmp);
             }
             else {
-                for (int j = 0; j < vecNames.size(); j++)
+                for (unsigned int j = 0; j < vecNames.size(); j++)
                 {
                     vecNew.push_back(vecNames[j] + sTmp);
                 }
             }
         }
         vecNames = vecNew;
+        cout << "Letter number :" << i << endl;
     }
 
     //// print candidates
@@ -195,14 +204,23 @@ int main()
     vector<string> vecNames;
     bOk = Calculate(sIn, vecNames);
     if (!bOk) { return 0; }
+    cout << "Name created." << endl;
 
-    vector<string> dict;
+    map<int, vector<string>> dict;
     ReadDict("dict.txt", dict);
+    cout << "Dictionary read." << endl;
 
     vector<string> vecFound;
     for (string s : vecNames)
     {
-        for (string s2 : dict)
+        int l = s.size();
+        
+        map<int, vector<string>>::iterator it = dict.find(l);
+        if (it == dict.end()) {
+            continue;
+        }
+
+        for (string s2 : it->second)
         {
             if (s == s2)
             {
