@@ -1,0 +1,4 @@
+﻿  hamming.cpp
+D:\WelSimLLC-github\myUSACOsol\section_2_1_hamming\hamming.cpp(26,19): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  LINK : D:\WelSimLLC-github\myUSACOsol\x64\Debug\hamming.exe not found or not built by the last incremental link; performing full link
+  hamming.vcxproj -> D:\WelSimLLC-github\myUSACOsol\x64\Debug\hamming.exe
