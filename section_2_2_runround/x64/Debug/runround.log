@@ -1,3 +1,2 @@
-﻿  runround.cpp
-D:\WelSimLLC-github\myUSACOsol\section_2_2_runround\runround.cpp(34,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+﻿  LINK : D:\WelSimLLC-github\myUSACOsol\x64\Debug\runround.exe not found or not built by the last incremental link; performing full link
   runround.vcxproj -> D:\WelSimLLC-github\myUSACOsol\x64\Debug\runround.exe
