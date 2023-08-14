@@ -155,7 +155,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ditch", "section_4_2_ditch\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stall4", "section_4_2_stall4\stall4.vcxproj", "{D1CDF51D-DB8A-4CFB-ABC4-3D3C1591274F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "job", "section_4_2job\job.vcxproj", "{F3A96F7B-C2EF-4130-9170-F2B58D6220C0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "job", "section_4_2_job\job.vcxproj", "{F3A96F7B-C2EF-4130-9170-F2B58D6220C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
